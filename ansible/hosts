@@ -1,0 +1,7 @@
+[book]
+ubuntu@192.168.56.101
+
+[book:vars]
+remote_user=ubuntu
+ansible_python_interpreter=/usr/bin/python3
+

@@ -1,0 +1,51 @@
+---
+- name: Install docker packages
+  apt:
+    name: ['git', 'pwgen', 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common']
+    state: present
+    update_cache: yes
+
+  # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- name: Add Dockers official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+ 
+# sudo apt-key fingerprint 0EBFCD88
+- name: Verify that we have the key with the fingerprint
+  apt_key:
+    id: 0EBFCD88
+    state: present
+ 
+# sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable"
+- name: Set up the stable repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+    update_cache: yes
+ 
+# sudo apt-get update
+- name: Update apt packages
+  apt:
+    update_cache: yes
+ 
+# sudo apt-get install docker-ce=18.03.*
+- name: Install docker
+  apt:
+    name: docker-ce
+    state: present
+    update_cache: yes
+ 
+# sudo usermod -aG docker ubuntu
+- name: Add remote "ubuntu" user to "docker" group
+  user:
+    name: "{{ remote_user }}"
+    group: docker
+    append: yes
+ 
+# sudo apt-get install docker-compose=1.8.*
+- name: Install docker-compose
+  apt:
+    name: docker-compose
+    state: present
+    update_cache: yes

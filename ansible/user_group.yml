@@ -1,0 +1,18 @@
+- name: Ensure group "developers" exists
+  group:
+    name: developers
+    state: present
+
+- name: Add the user 'bender' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
+  user:
+    name: bender
+    shell: /bin/bash
+    groups: developers
+    append: yes
+
+- name: Create a 2048-bit SSH key for user bender in ~bender/.ssh/id_rsa
+  user:
+    name: bender
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa

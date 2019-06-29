@@ -1,0 +1,27 @@
+---
+- name: Set Password Requirement Parameters Using pam_cracklib (Install)
+  package:
+    name: "libpam-cracklib"
+    state: present
+- name: Set Password Requirement Parameters Using pam_cracklib (Configure)
+  lineinfile:
+    dest: "/etc/pam.d/common-password"
+    regexp: "pam_cracklib.so"
+    line: "password required pam_cracklib.so try_first_pass retry=3 minlen=12 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1"
+    state: present
+
+- name: Set Lockout for Failed Password Attempts
+  lineinfile:
+    dest: '/etc/pam.d/login'
+    regexp: "pam_tally2.so"
+    line: "auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900"
+    state: present
+
+- name: Limit Password Reuse
+  lineinfile:
+    dest: "/etc/pam.d/common-password"
+    regexp: "remember=5"
+    line: "password sufficient pam_unix.so remember=5"
+    state: present
+
+
