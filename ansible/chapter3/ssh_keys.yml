@@ -1,0 +1,8 @@
+- name: Create an SSH key for the user 'bender'
+  user:
+    name: bender
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+
+

@@ -1,0 +1,30 @@
+- name: Ensure group 'developers' exists
+  group:
+    name: developers
+    state: present
+
+- name: Create the user 'bender'
+  user:
+    name: bender
+    shell: /bin/bash
+    password: $6$OStSJfA6FA$ffSDaJBWfSpmnwlC6QWJwLG3PgZWQhPYUSezmRvSiUFpwSWy/57KuUuLg/4yGBpKx2TWYsPDz9Yq7nL2I2XT3/
+
+- name: Add 'bender' to the 'developers' group
+  user:
+    name: bender
+    groups: developers
+    append: yes
+
+- name: Create a directory named 'engineering'
+  file:
+    path: /opt/engineering
+    state: directory
+    mode: '0750'
+    group: developers
+
+- name: Create a file in the engineering directory
+  file:
+    path: "/opt/engineering/private.txt"
+    state: touch
+    mode: 0770
+    group: developers

@@ -5,6 +5,9 @@
   become_method: sudo
   remote_user: ubuntu
   tasks:
-          #- import_tasks: docker.yml
-          #- import_tasks: pam_cracklib.yml
+  - import_tasks: chapter2/pam_cracklib.yml
+  - import_tasks: chapter2/user_and_group.yml
+  #- import_tasks: ssh_keys.yml
+  #- import_tasks: 2fa.yml
+  #- import_tasks: docker.yml
 

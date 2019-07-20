@@ -12,7 +12,8 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "debian/stretch64"
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.hostname = "dftd"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -66,8 +67,6 @@ Vagrant.configure("2") do |config|
   # SHELL
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "../ansible/site.yml"
-    ansible.host_vars = {
-      "book" => { "ansible_python_interpreter" => "/usr/bin/python3" }
-    }
+    ansible.compatibility_mode = "2.0"
   end
 end
