@@ -1,0 +1,7 @@
+# Handlers
+- name: Restart SSH Server
+  service:
+    name: sshd
+    state: restarted
+    #listen: "Restart SSH Server"
+
