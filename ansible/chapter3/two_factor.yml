@@ -4,28 +4,39 @@
     update_cache: yes
     state: present
 
-- name: Copy over GoogleAuthenticator config
+- name: Copy over Preconfigured GoogleAuthenticator config
   copy:
-    src: ../ansible/chapter3/google-authenticator
-    dest: /home/bender/.google-authenticator
+    src: ../ansible/chapter3/google_authenticator
+    dest: /home/bender/.google_authenticator
     owner: bender
     group: bender
-    mode: '0644'
+    mode: '0600'
 
-- name: Add GoogleAuthenticator to PAM SSHD
+- name: Tell PAM not to prompt for password
+  lineinfile:
+    dest: "/etc/pam.d/sshd"
+    regex: "@include common-auth"
+    line: "#@include common-auth"
+
+- name: Tell PAM SSHD about GoogleAuthenticator
   lineinfile:
     dest: "/etc/pam.d/sshd"
     line: "auth required pam_google_authenticator.so nullok"
 
-- name: Enable Two-Factor over SSH for bender
+- name: Set `ChallengeResponseAuthentication` to Yes
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^ChallengeResponseAuthentication [yes|no]"
+    line: "ChallengeResponseAuthentication yes"
+    state: present
+
+- name: Set Authentication Methods for bender
   blockinfile:
     path: "/etc/ssh/sshd_config"
     block: |
-      ChallengeResponseAuthentication yes
-      Match User ubuntu
+      Match User "ubuntu,vagrant"
           AuthenticationMethods publickey
       Match User "bender,!vagrant,!ubuntu"
           AuthenticationMethods publickey,keyboard-interactive
     state: present
   notify: "Restart SSH Server"
-

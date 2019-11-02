@@ -1,0 +1,16 @@
+---
+- name: Install Nginx
+  package:
+    name: "nginx"
+    state: present
+
+- name: Copy over Sudoers file for bender and developers group
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+    validate: 'visudo -cf %s'
+  loop:
+    #- {dest: "/etc/sudoers.d/bender", src: "../ansible/templates/bender.j2"}
+    - {dest: "/etc/sudoers.d/developers", src: "../ansible/templates/developers.j2"}
+
+

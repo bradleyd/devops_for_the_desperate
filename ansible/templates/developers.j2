@@ -1,0 +1,10 @@
+# Command alias
+Cmnd_Alias	RELOAD_NGINX =/bin/systemctl reload nginx
+Cmnd_Alias	STATUS_NGINX =/bin/systemctl status nginx
+Cmnd_Alias	RESTART_NGINX =/bin/systemctl restart nginx
+
+# Host Alias
+Host_Alias      LOCAL_VM = {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+# User specification
+#%developers {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }} = (root) RELOAD_NGINX,STATUS_NGINX
+%developers LOCAL_VM = (root) NOPASSWD: RESTART_NGINX,RELOAD_NGINX,STATUS_NGINX

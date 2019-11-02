@@ -1,0 +1,7 @@
+- name: Set authorized key file from local user
+  authorized_key:
+    user: bender 
+    state: present
+    #key: "{{ lookup('file', '/home/charlie/.ssh/dftd.pub') }}"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/book.pub') }}"
+
