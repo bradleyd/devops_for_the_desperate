@@ -1,0 +1,20 @@
+---
+- name: Install libpam-pwquality
+  package:
+    name: "libpam-pwquality"
+    state: present
+
+- name: Configure pam_pwquality
+  lineinfile:
+    dest: "/etc/pam.d/common-password"
+    regexp: "pam_pwquality.so"
+    line: "password required pam_pwquality.so try_first_pass retry=3 minlen=12 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 enforce_for_root"
+    state: present
+
+    #- name: Limit Password Reuse
+    #  lineinfile:
+    #    dest: "/etc/pam.d/common-password"
+    #    regexp: "remember=5"
+    #    line: "password sufficient pam_unix.so use_authtok remember=5"
+    #    state: present
+

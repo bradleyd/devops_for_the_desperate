@@ -1,16 +1,37 @@
 ---
-- name: Install Nginx
-  package:
-    name: "nginx"
-    state: present
+- set_fact:
+    greeting_application_path: "/opt/engineering/greeting.py"
 
-- name: Copy over Sudoers file for bender and developers group
+- name: Install Python3 Flask and Gunicorn3
+  apt:
+    pkg:
+    - python3-flask
+    - gunicorn3
+
+- name: Copy over Sudoers file for developers group
   template:
-    src: "{{item.src}}"
-    dest: "{{item.dest}}"
+    src: "../ansible/templates/developers.j2"
+    dest: "/etc/sudoers.d/developers"
     validate: 'visudo -cf %s'
+
+- name: Copy over Flask Sample Application
+  copy:
+    src: "../ansible/chapter4/{{ item }}"
+    dest: "/opt/engineering/{{ item }}"
+    owner: bender
+    group: developers
+    mode: '0750'
   loop:
-    #- {dest: "/etc/sudoers.d/bender", src: "../ansible/templates/bender.j2"}
-    - {dest: "/etc/sudoers.d/developers", src: "../ansible/templates/developers.j2"}
+    - greeting.py
+    - wsgi.py
 
+- name: Copy over Systemd unit file for Greeting
+  copy:
+    src: "../ansible/chapter4/greeting.service"
+    dest: "/etc/systemd/system/greeting.service"
 
+- name: (Re)Start Greetings Application
+  systemd:
+    name: greeting.service
+    daemon_reload: yes
+    state: restarted

@@ -12,7 +12,7 @@
     group: bender
     mode: '0600'
 
-- name: Tell PAM not to prompt for password
+- name: Tell PAM not to prompt for password over SSH
   lineinfile:
     dest: "/etc/pam.d/sshd"
     regex: "@include common-auth"
@@ -23,14 +23,14 @@
     dest: "/etc/pam.d/sshd"
     line: "auth required pam_google_authenticator.so nullok"
 
-- name: Set `ChallengeResponseAuthentication` to Yes
+- name: Set ChallengeResponseAuthentication to Yes
   lineinfile:
     dest: "/etc/ssh/sshd_config"
     regexp: "^ChallengeResponseAuthentication [yes|no]"
     line: "ChallengeResponseAuthentication yes"
     state: present
 
-- name: Set Authentication Methods for bender
+- name: Set Authentication Methods for bender, vagrant, and ubuntu
   blockinfile:
     path: "/etc/ssh/sshd_config"
     block: |

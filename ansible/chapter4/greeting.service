@@ -1,0 +1,12 @@
+[Unit]
+Description=The Higly Complicated Greeting Application
+After=network.target
+
+[Service]
+User=bender
+Group=developers
+WorkingDirectory=/opt/engineering
+ExecStart=/usr/bin/gunicorn3 --bind 0.0.0.0:5000 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
