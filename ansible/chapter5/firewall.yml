@@ -1,0 +1,31 @@
+---
+
+- name: Set logging
+  ufw:
+    logging: 'on'
+
+- name: Allow SSH over port 22
+  ufw:
+    rule: allow
+    port: '22'
+    proto: tcp
+
+- name: Allow all access to port 5000
+  ufw:
+    rule: allow
+    port: '5000'
+    proto: tcp
+
+- name: Rate limit excessive abuse on port 5000
+  ufw:
+    rule: limit
+    port: '5000'
+    proto: tcp
+
+
+- name: Reject all other traffic
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+

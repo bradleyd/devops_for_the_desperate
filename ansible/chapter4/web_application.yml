@@ -1,0 +1,28 @@
+---
+- name: Install python3-flask and gunicorn3
+  apt:
+    pkg:
+    - python3-flask
+    - gunicorn3
+    - nginx
+
+- name: Copy Flask Sample Application
+  copy:
+    src: "../ansible/chapter4/{{ item }}"
+    dest: "/opt/engineering/{{ item }}"
+    group: developers
+    mode: '0750'
+  loop:
+    - greeting.py
+    - wsgi.py
+
+- name: Copy Systemd Unit file for Greeting
+  copy:
+    src: "../ansible/chapter4/greeting.service"
+    dest: "/etc/systemd/system/greeting.service"
+
+- name: (Re)Start Greetings Application
+  systemd:
+    name: greeting.service
+    daemon_reload: yes
+    state: started

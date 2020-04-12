@@ -1,10 +1,8 @@
 # Command alias
-Cmnd_Alias	START_COCKPIT =/bin/systemctl start cockpit
-Cmnd_Alias	STOP_COCKPIT  =/bin/systemctl status cockpit
 Cmnd_Alias	START_GREETING =/bin/systemctl start greeting
 Cmnd_Alias	STOP_GREETING  =/bin/systemctl stop greeting
 
 # Host Alias
 Host_Alias      LOCAL_VM = {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 # User specification
-%developers LOCAL_VM = (root) NOPASSWD: START_COCKPIT,STOP_COCKPIT,sudoedit {{ greeting_application_path }}
+%developers LOCAL_VM = (root) NOPASSWD: START_GREETING,STOP_GREETING,sudoedit {{ greeting_application_file }}

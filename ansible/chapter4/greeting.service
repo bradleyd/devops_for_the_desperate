@@ -1,12 +1,14 @@
 [Unit]
-Description=The Higly Complicated Greeting Application
+Description=The Highly Complicated Greeting Application
 After=network.target
 
 [Service]
-User=bender
+User=www-data
 Group=developers
 WorkingDirectory=/opt/engineering
-ExecStart=/usr/bin/gunicorn3 --bind 0.0.0.0:5000 wsgi:app
+ExecStart=/usr/bin/gunicorn3 --bind 0.0.0.0:5000 --access-logfile - --error-logfile - wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
 
 [Install]
 WantedBy=multi-user.target

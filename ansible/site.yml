@@ -9,8 +9,8 @@
       - import_tasks: chapter2/user_and_group.yml
       - import_tasks: chapter3/authorized_keys.yml
       - import_tasks: chapter3/two_factor.yml
+      - import_tasks: chapter4/web_application.yml
       - import_tasks: chapter4/sudoers.yml
+      - import_tasks: chapter5/firewall.yml
   handlers:
       - import_tasks: handlers/restart_ssh.yml       
-      - import_tasks: handlers/reload_systemd.yml       
-
