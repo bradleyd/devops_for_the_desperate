@@ -1,6 +1,6 @@
 ---
 
-- name: Set logging
+- name: Turn Logging on
   ufw:
     logging: 'on'
 
