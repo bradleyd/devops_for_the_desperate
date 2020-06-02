@@ -2,3 +2,4 @@ app_metrics
 .vagrant/
 *.log
 gitea-helm-chart/
+telnet-server/telnet-server
