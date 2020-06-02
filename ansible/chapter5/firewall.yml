@@ -1,8 +1,8 @@
 ---
 
-- name: Turn Logging on
+- name: Turn Logging level to low
   ufw:
-    logging: 'on'
+    logging: 'low'
 
 - name: Allow SSH over port 22
   ufw:
