@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: telnet-server
+  name: telnet-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: telnet-server
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: telnet-server
+    spec:
+      containers:
+      - image: dftf/telnet-server:v1
+        imagePullPolicy: IfNotPresent
+        name: telnet-server
+        resources: {}
+status: {}
