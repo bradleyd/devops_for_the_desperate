@@ -22,4 +22,9 @@ spec:
         imagePullPolicy: IfNotPresent
         name: telnet-server
         resources: {}
+        ports:
+        - containerPort: 2323
+          name: telnet
+        - containerPort: 9000
+          name: metrics
 status: {}

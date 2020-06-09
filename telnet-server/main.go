@@ -3,9 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"io"
 	"log"
 	"net"
@@ -13,6 +10,10 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
@@ -24,6 +25,11 @@ var (
 		Name: "telnet_server_connection_errors_total",
 		Help: "The total number of errors",
 	})
+	unknownCommands = promauto.NewCounterVec(prometheus.CounterOpts{
+		Name: "telnet_server_unknown_commands_total",
+		Help: "The total number of unknown commands entered",
+	}, []string{"command"})
+
 	logger = log.New(os.Stdout, "telnet-server: ", log.LstdFlags)
 )
 
@@ -124,7 +130,7 @@ func handleConnection(conn net.Conn, logger *log.Logger) {
 		switch cmd {
 		case "quit", "q":
 			conn.Write([]byte("Good Bye!\n"))
-			logger.Println("User quit session\n")
+			logger.Println("User quit session")
 			return
 		case "date", "d":
 			const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
@@ -138,6 +144,9 @@ func handleConnection(conn net.Conn, logger *log.Logger) {
 		default:
 			// just echo command back since we do not handle it
 			newmessage := strings.ToUpper(cmd)
+			// increment metrics
+			unknownCommands.WithLabelValues(cmd).Inc()
+
 			conn.Write([]byte(newmessage + "\n"))
 
 		}

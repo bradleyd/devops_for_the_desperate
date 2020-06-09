@@ -3,15 +3,15 @@ kind: Service
 metadata:
   labels:
     app: telnet-server
-  name: telnet-server
+  name: telnet-server-metrics
 spec:
   ports:
-  - port: 2323
-    name: telnet
+  - name: metrics
+    port: 9000
     protocol: TCP
-    targetPort: 2323
+    targetPort: 9000
   selector:
     app: telnet-server
-  type: LoadBalancer
+  type: ClusterIP
 status:
   loadBalancer: {}
