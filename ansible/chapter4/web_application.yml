@@ -3,7 +3,7 @@
   apt:
     pkg:
     - python3-flask
-    - gunicorn3
+    - gunicorn
     - nginx
 
 - name: Copy Flask Sample Application
