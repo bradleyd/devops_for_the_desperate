@@ -1,6 +1,6 @@
 # Build stage
 FROM golang:1.14-alpine AS build-env
-RUN apk --no-cache add build-base git bzr mercurial gcc
+RUN apk --no-cache add build-base git gcc
 ADD . /
 RUN cd / && go build -o telnet-server
 
