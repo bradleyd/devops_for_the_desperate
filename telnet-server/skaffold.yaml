@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+build:
+  local: {}
+  artifacts:
+  - image: dftd/telnet-server
+    custom:
+      buildCommand: ./build.sh
+      dependencies:
+        paths:
+        - .
+test:
+  - image: dftd/telnet-server
+    structureTests:
+      - ./test/*
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/*

@@ -5,7 +5,7 @@ ADD . /
 RUN cd / && go build -o telnet-server
 
 # final stage
-FROM alpine:latest
+FROM alpine:latest as final
 WORKDIR /app
 ENV TELNET_PORT 2323
 ENV METRIC_PORT 9000
