@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -33,20 +34,6 @@ var (
 	logger = log.New(os.Stdout, "telnet-server: ", log.LstdFlags)
 )
 
-// ascii banner
-func banner() string {
-	b :=
-		`
-____________ ___________
-|  _  \  ___|_   _|  _  \
-| | | | |_    | | | | | |
-| | | |  _|   | | | | | |
-| |/ /| |     | | | |/ /
-|___/ \_|     \_/ |___/
-`
-	return b
-}
-
 func serveMetrics() {
 	port := metricServerPort()
 	http.Handle("/metrics", promhttp.Handler())
@@ -71,6 +58,13 @@ func telnetServerPort() string {
 }
 
 func main() {
+	var info bool
+	flag.BoolVar(&info, "i", false, "Print ENV")
+	flag.Parse()
+	if info {
+		fmt.Printf("telnet port %s\nMetrics Port: %s\n", telnetServerPort(), metricServerPort())
+		os.Exit(0)
+	}
 
 	telnetPort := telnetServerPort()
 
@@ -114,6 +108,7 @@ func handleConnection(conn net.Conn, logger *log.Logger) {
 
 	for {
 		conn.Write([]byte(">"))
+
 		// read message
 		bytes, err := reader.ReadBytes(byte('\n'))
 

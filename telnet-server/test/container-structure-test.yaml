@@ -1,0 +1,6 @@
+schemaVersion: 2.0.0
+commandTests:
+  - name: "telnet-server"
+    command: "./telnet-server"
+    args: ["-i"]
+    expectedOutput: ["telnet port :2323\nMetrics Port: :9000"]
