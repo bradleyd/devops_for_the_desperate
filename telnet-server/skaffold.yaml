@@ -10,10 +10,11 @@ build:
         paths:
         - .
 test:
-  - image: dftd/telnet-server
-    structureTests:
-      - ./test/*
+- image: dftd/telnet-server
+  structureTests:
+  - ./test/*
+
 deploy:
   kubectl:
     manifests:
-      - kubernetes/*
+    - kubernetes/*
