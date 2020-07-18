@@ -92,7 +92,6 @@ func (t *TCPServer) Run() {
 		conn.Write([]byte(banner() + "\n"))
 		go t.handleConnections(conn)
 	}
-	//return
 }
 
 // Close shuts down the TCP Server
@@ -168,30 +167,5 @@ func main() {
 	go serveMetrics()
 
 	tcpServer := TCPServer{addr: telnetServerPort()}
-	//var err error
-	// create a tcp listener
-
-	//tcpServer.server, err = net.Listen("tcp", tcpServer.addr)
-	//if err != nil {
-	//	logger.Println("Failed to create listener on port:, err:", tcpServer.addr, err)
-	//	os.Exit(1)
-	//}
-
-	//logger.Printf("telnet-server listening on %s\n", tcpServer.server.Addr())
 	tcpServer.Run()
-	// // listen for new connections
-	// for {
-	// 	conn, err := tcpServer.server.Accept()
-	// 	if err != nil {
-	// 		logger.Println("Failed to accept connection, err:", err)
-	// 		// increment metrics
-	// 		connectionErrors.Inc()
-	// 		continue
-	// 	}
-
-	//conn.Write([]byte(banner() + "\n"))
-
-	// 	// handle the connection
-	// 	go handleConnections(conn, logger)
-	// }
 }
