@@ -58,12 +58,6 @@ func telnetServerPort() string {
 	return fmt.Sprintf(":%s", port)
 }
 
-// Server defines the minimum contract
-///type Server interface {
-//	Run() error
-////	Close() error
-//}
-
 // TCPServer holds the structure of our TCP impl
 type TCPServer struct {
 	addr   string

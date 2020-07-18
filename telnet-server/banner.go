@@ -13,7 +13,6 @@ const (
 	colorWhite  = "\033[37m"
 )
 
-// DFTD banner colorized
 func banner() string {
 	b :=
 		`
