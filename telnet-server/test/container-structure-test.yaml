@@ -4,3 +4,11 @@ commandTests:
     command: "./telnet-server"
     args: ["-i"]
     expectedOutput: ["telnet port :2323\nMetrics Port: :9000"]
+metadataTest:
+  env:
+    - key: TELNET_PORT
+      value: 2323
+    - key: METRIC_PORT
+      value: 9000
+  cmd: ["./telnet-server"]
+  workdir: "/app"

@@ -3,3 +3,4 @@ app_metrics
 *.log
 gitea-helm-chart/
 telnet-server/telnet-server
+.DS_Store

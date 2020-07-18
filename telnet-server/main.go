@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -57,48 +58,56 @@ func telnetServerPort() string {
 	return fmt.Sprintf(":%s", port)
 }
 
-func main() {
-	var info bool
-	flag.BoolVar(&info, "i", false, "Print ENV")
-	flag.Parse()
-	if info {
-		fmt.Printf("telnet port %s\nMetrics Port: %s\n", telnetServerPort(), metricServerPort())
-		os.Exit(0)
-	}
+// Server defines the minimum contract
+///type Server interface {
+//	Run() error
+////	Close() error
+//}
 
-	telnetPort := telnetServerPort()
+// TCPServer holds the structure of our TCP impl
+type TCPServer struct {
+	addr   string
+	server net.Listener
+}
 
-	//serve Prometheus metrics
-	go serveMetrics()
+// Run starts the TCP Server.
+func (t *TCPServer) Run() {
+	var err error
+	t.server, err = net.Listen("tcp", t.addr)
+	defer t.Close()
 
-	// create a tcp listener
-	listener, err := net.Listen("tcp", telnetPort)
 	if err != nil {
-		logger.Println("Failed to create listener on port:, err:", telnetPort, err)
+		logger.Printf("Failed to create listener on port %s with error %v", t.addr, err)
 		os.Exit(1)
 	}
 
-	logger.Printf("telnet-server listening on %s\n", listener.Addr())
+	logger.Printf("telnet-server listening on %s\n", t.server.Addr())
 
-	// listen for new connections
 	for {
-		conn, err := listener.Accept()
+		conn, err := t.server.Accept()
 		if err != nil {
-			logger.Println("Failed to accept connection, err:", err)
-			// increment metrics
+			err = errors.New("could not accept connection")
 			connectionErrors.Inc()
 			continue
 		}
-
+		if conn == nil {
+			err = errors.New("could not create connection")
+			connectionErrors.Inc()
+			continue
+		}
 		conn.Write([]byte(banner() + "\n"))
-
-		// handle the connection
-		go handleConnection(conn, logger)
+		go t.handleConnections(conn)
 	}
+	//return
 }
 
-// handleConnection handles the connection
-func handleConnection(conn net.Conn, logger *log.Logger) {
+// Close shuts down the TCP Server
+func (t *TCPServer) Close() (err error) {
+	return t.server.Close()
+}
+
+// handles incoming requests
+func (t *TCPServer) handleConnections(conn net.Conn) {
 	defer conn.Close()
 
 	reader := bufio.NewReader(conn)
@@ -120,6 +129,7 @@ func handleConnection(conn net.Conn, logger *log.Logger) {
 			connectionErrors.Inc()
 			return
 		}
+
 		// match command from client
 		cmd := strings.TrimRight(string(bytes), "\r\n")
 		switch cmd {
@@ -148,4 +158,46 @@ func handleConnection(conn net.Conn, logger *log.Logger) {
 
 		logger.Printf("Request command: %s", bytes)
 	}
+}
+
+func main() {
+	var info bool
+	flag.BoolVar(&info, "i", false, "Print ENV")
+	flag.Parse()
+
+	if info {
+		fmt.Printf("telnet port %s\nMetrics Port: %s\n", telnetServerPort(), metricServerPort())
+		os.Exit(0)
+	}
+
+	//serve Prometheus metrics
+	go serveMetrics()
+
+	tcpServer := TCPServer{addr: telnetServerPort()}
+	//var err error
+	// create a tcp listener
+
+	//tcpServer.server, err = net.Listen("tcp", tcpServer.addr)
+	//if err != nil {
+	//	logger.Println("Failed to create listener on port:, err:", tcpServer.addr, err)
+	//	os.Exit(1)
+	//}
+
+	//logger.Printf("telnet-server listening on %s\n", tcpServer.server.Addr())
+	tcpServer.Run()
+	// // listen for new connections
+	// for {
+	// 	conn, err := tcpServer.server.Accept()
+	// 	if err != nil {
+	// 		logger.Println("Failed to accept connection, err:", err)
+	// 		// increment metrics
+	// 		connectionErrors.Inc()
+	// 		continue
+	// 	}
+
+	//conn.Write([]byte(banner() + "\n"))
+
+	// 	// handle the connection
+	// 	go handleConnections(conn, logger)
+	// }
 }
