@@ -12,7 +12,7 @@ build:
 test:
 - image: dftd/telnet-server
   structureTests:
-  - ./test/*
+  - ./container-tests/*
 
 deploy:
   kubectl:
