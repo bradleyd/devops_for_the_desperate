@@ -1,4 +1,4 @@
-module github.com/bradleyd/dftd/telnet-server
+module telnet-server
 
 go 1.14
 
