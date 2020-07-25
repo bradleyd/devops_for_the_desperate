@@ -18,10 +18,10 @@ var (
 		Name: "telnet_server_connection_errors_total",
 		Help: "The total number of errors",
 	})
-	unknownCommands = promauto.NewCounterVec(prometheus.CounterOpts{
+	unknownCommands = promauto.NewCounter(prometheus.CounterOpts{
 		Name: "telnet_server_unknown_commands_total",
 		Help: "The total number of unknown commands entered",
-	}, []string{"command"})
+	})
 )
 
 // MetricServer holds state for our Prometheus metrics server
@@ -55,5 +55,5 @@ func (m *MetricServer) IncrementConnectionsProcessed() {
 
 // IncrementUnknownCommands += 1
 func (m *MetricServer) IncrementUnknownCommands(cmd string) {
-	unknownCommands.WithLabelValues(cmd).Inc()
+	unknownCommands.Inc()
 }
