@@ -4,3 +4,4 @@ app_metrics
 gitea-helm-chart/
 telnet-server/telnet-server
 .DS_Store
+ansible/site.yml.bak
