@@ -2,8 +2,11 @@
 - set_fact:
     greeting_application_file: "/opt/engineering/greeting.py"
 
-- name: Create Sudoers file for developers group
+- name: Create sudoers file for developers group
   template:
     src: "../ansible/templates/developers.j2"
     dest: "/etc/sudoers.d/developers"
     validate: 'visudo -cf %s'
+    owner: root
+    group: root
+    mode: 0440
