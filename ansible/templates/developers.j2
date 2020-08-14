@@ -1,8 +1,14 @@
 # Command alias
-Cmnd_Alias	START_GREETING =/bin/systemctl start greeting
-Cmnd_Alias	STOP_GREETING  =/bin/systemctl stop greeting
+Cmnd_Alias	START_GREETING    = /bin/systemctl start greeting , \
+				    /bin/systemctl start greeting.service
+Cmnd_Alias	STOP_GREETING     = /bin/systemctl stop greeting , \
+				    /bin/systemctl stop greeting.service
+Cmnd_Alias	RESTART_GREETING  = /bin/systemctl restart greeting , \
+				    /bin/systemctl restart greeting.service
 
 # Host Alias
 Host_Alias      LOCAL_VM = {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 # User specification
-%developers LOCAL_VM = (root) NOPASSWD: START_GREETING,STOP_GREETING,sudoedit {{ greeting_application_file }}
+%developers LOCAL_VM = (root) NOPASSWD: START_GREETING, STOP_GREETING, \
+	    	       RESTART_GREETING, \
+		       sudoedit {{ greeting_application_file }}
