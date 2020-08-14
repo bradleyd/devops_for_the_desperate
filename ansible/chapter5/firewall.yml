@@ -23,7 +23,7 @@
     proto: tcp
 
 
-- name: Reject all other traffic
+- name: Drop all other traffic
   ufw:
     state: enabled
     policy: deny
