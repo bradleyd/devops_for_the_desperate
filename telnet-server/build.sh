@@ -3,7 +3,7 @@ set -e
 
 echo "Running Tests..."
 
-go test ./... # all tests
+go test ./... -v # all tests
 
 echo "Building $IMAGE"
 docker build -t $IMAGE .
