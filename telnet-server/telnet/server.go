@@ -43,6 +43,7 @@ func (t *TCPServer) Run() {
 		if err != nil {
 			err = errors.New("could not accept connection")
 			t.metrics.IncrementConnectionErrors()
+			t.metrics.IncrementActiveConnections()
 			continue
 		}
 		if conn == nil {
@@ -68,6 +69,7 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 
 	// increment metrics
 	t.metrics.IncrementConnectionsProcessed()
+	t.metrics.IncrementActiveConnections()
 
 	for {
 		conn.Write([]byte(">"))
@@ -90,6 +92,7 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 		case "quit", "q":
 			conn.Write([]byte("Good Bye!\n"))
 			t.logger.Println("User quit session")
+			t.metrics.DecrementActiveConnections()
 			return
 		case "date", "d":
 			const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
