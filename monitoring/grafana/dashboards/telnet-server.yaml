@@ -22,7 +22,6 @@ data:
       "editable": true,
       "gnetId": null,
       "graphTooltip": 0,
-      "id": 2,
       "links": [],
       "panels": [
         {
@@ -487,7 +486,9 @@ data:
           "fieldConfig": {
             "defaults": {
               "custom": {},
+              "decimals": 0,
               "mappings": [],
+              "min": 0,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -500,7 +501,8 @@ data:
                     "value": 80
                   }
                 ]
-              }
+              },
+              "unit": "short"
             },
             "overrides": []
           },
@@ -568,5 +570,5 @@ data:
       "timezone": "",
       "title": "telnet-server",
       "uid": "Je7IRoHGk",
-      "version": 2
+      "version": 1
     }
