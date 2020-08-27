@@ -12,11 +12,10 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1 # how many pods we can add at a time
-      maxUnavailable: 0  # maxUnavailable define how many pods can be unavailable
+      maxSurge: 1               # how many pods we can add at a time
+      maxUnavailable: 0         # how many pods can be unavailable
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: telnet-server
     spec:
