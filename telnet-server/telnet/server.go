@@ -43,7 +43,6 @@ func (t *TCPServer) Run() {
 		if err != nil {
 			err = errors.New("could not accept connection")
 			t.metrics.IncrementConnectionErrors()
-			t.metrics.IncrementActiveConnections()
 			continue
 		}
 		if conn == nil {
@@ -83,6 +82,7 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 			}
 			// increment metrics
 			t.metrics.IncrementConnectionErrors()
+			t.metrics.DecrementActiveConnections()
 			return
 		}
 

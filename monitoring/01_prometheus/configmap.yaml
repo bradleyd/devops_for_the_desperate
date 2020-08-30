@@ -158,3 +158,45 @@ data:
           action: replace
           target_label: kubernetes_name
 
+      - job_name: node-exporter
+        honor_timestamps: true
+        scrape_interval: 30s
+        scrape_timeout: 15s
+        metrics_path: /metrics
+        scheme: http
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs:
+        - separator: ;
+          regex: __meta_kubernetes_pod_label_(.+)
+          replacement: $1
+          action: labelmap
+        - source_labels: [__address__]
+          separator: ;
+          regex: ([^:]+)(?::\d+)?
+          target_label: __address__
+          replacement: $1:9100
+          action: replace
+        - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_pod_label_k8s_app]
+          separator: ;
+          regex: ${NAMESPACE};node-exporter
+          replacement: $1
+          action: keep
+        - source_labels: [__meta_kubernetes_namespace]
+          separator: ;
+          regex: (.*)
+          target_label: namespace
+          replacement: $1
+          action: replace
+        - source_labels: [__meta_kubernetes_pod_name]
+          separator: ;
+          regex: (.*)
+          target_label: pod
+          replacement: $1
+          action: replace
+        - source_labels: [__meta_kubernetes_pod_node_name]
+          separator: ;
+          regex: (.*)
+          target_label: instance
+          replacement: $1
+          action: replace

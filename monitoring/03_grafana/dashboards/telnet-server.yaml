@@ -530,7 +530,7 @@ data:
           "pluginVersion": "7.1.4",
           "targets": [
             {
-              "expr": "sum(telnet_server_unknown_commands_total)",
+              "expr": "sum(telnet_server_unknown_commands_total{job=\"kubernetes-pods\"})",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
