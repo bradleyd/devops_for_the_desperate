@@ -1,0 +1,30 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: connection-simulator 
+  labels:
+    app: connection-simulator
+    app.kubernetes.io/name: dftd
+    app.kubernetes.io/component: connection-simulator
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: connection-simulator
+        spec:
+          containers:
+          - name: connection-simulator
+            image: ghcr.io/bradleyd/devops_for_the_desperate/connection-simulator:latest
+            imagePullPolicy: Always
+            env:
+            - name: MAX_CONNECTIONS
+              value: "500"
+            - name: TELNET_HOST
+              value: "telnet-server:2323"
+          restartPolicy: OnFailure

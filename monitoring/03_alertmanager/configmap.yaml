@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: dftd
+    app.kubernetes.io/component: alertmanager
+data:
+  alertmanager.yml: |
+    global: null
+    receivers:
+    #- name: gmail
+    #  email_configs:
+    #  - send_resolved: true
+    #    to: GMAIL_USERNAME@gmail.com
+    #    from: GMAIL_USERNAME@gmail.com
+    #    smarthost: smtp.gmail.com:587
+    #    auth_username: GMAIL_USERNAME@gmail.com
+    #    auth_identity: GMAIL_USERNAME@gmail.com
+    #    auth_password: GMAIL_PASSWORD
+    - name: none
+    route:
+      group_by:
+      - job
+      group_interval: 5m
+      group_wait: 10s
+      receiver: none
+      repeat_interval: 3h
+
