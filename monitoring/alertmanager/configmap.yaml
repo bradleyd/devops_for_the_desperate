@@ -19,15 +19,6 @@ data:
     #    auth_username: GMAIL_USERNAME@gmail.com
     #    auth_identity: GMAIL_USERNAME@gmail.com
     #    auth_password: GMAIL_PASSWORD
-    - name: gmail
-      email_configs:
-      - send_resolved: true
-        to: bradleyd@smithverse.com
-        from: bradleyd@smithverse.com
-        smarthost: box.smithverse.com:587
-        auth_username: bradleyd@smithverse.com
-        auth_password: ***REMOVED***
-        require_tls: true
     - name: none
     route:
       group_by:
