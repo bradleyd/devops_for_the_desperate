@@ -47,6 +47,17 @@ func connectAndDoWork(wg *sync.WaitGroup) {
 	fmt.Fprintf(conn, "quit"+"\n")
 }
 
+func maxTelnetCommands() int {
+	val, ok := os.LookupEnv("MAX_TELNET_COMMANDS")
+	if !ok {
+		return maxCommandsToSend
+	}
+	i, err := strconv.Atoi(val)
+	if err != nil {
+		return maxCommandsToSend
+	}
+	return i
+}
 func maxConnections() int {
 	val, ok := os.LookupEnv("MAX_CONNECTIONS")
 	if !ok {
@@ -73,7 +84,10 @@ func main() {
 	var wg sync.WaitGroup
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	numberOfConnections := r.Intn(maxConnections())
+	maxCommandsToSend = maxTelnetCommands()
+
 	log.Printf("Launching %d connection at telnet-server", numberOfConnections)
+	log.Printf("Launching %d max commands telnet-server", maxCommandsToSend)
 
 	for i := 0; i <= numberOfConnections; i++ {
 		wg.Add(1)

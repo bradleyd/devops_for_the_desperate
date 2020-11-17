@@ -1,11 +1,11 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: connection-simulator 
+  name: bbs-warrior
   labels:
-    app: connection-simulator
+    app: bbs-warrior
     app.kubernetes.io/name: dftd
-    app.kubernetes.io/component: connection-simulator
+    app.kubernetes.io/component: bbs-warrior
 spec:
   schedule: "*/1 * * * *"
   concurrencyPolicy: Forbid
@@ -16,11 +16,11 @@ spec:
       template:
         metadata:
           labels:
-            app: connection-simulator
+            app: bbs-warrior
         spec:
           containers:
-          - name: connection-simulator
-            image: ghcr.io/bradleyd/devops_for_the_desperate/connection-simulator:latest
+          - name: bbs-warrior
+            image: ghcr.io/bradleyd/devops_for_the_desperate/bbs-warrior:latest
             imagePullPolicy: Always
             env:
             - name: MAX_CONNECTIONS

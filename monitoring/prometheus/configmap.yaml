@@ -22,7 +22,7 @@ data:
     - name: telnet-server golden signals
       rules:
       - alert: HighErrorRatePerSecond
-        expr: sum(rate(telnet_server_connection_errors_total{job="kubernetes-pods"}[2m])) > 1
+        expr: sum(rate(telnet_server_connection_errors_total{job="kubernetes-pods"}[2m])) > 2
         for: 1m
         labels:
           severity: Critical
@@ -34,7 +34,7 @@ data:
         expr: sum(rate(telnet_server_connection_total{job="kubernetes-pods"}[2m])) > 2
         for: 1m
         labels:
-          severity: Warning
+          severity: Critical
         annotations:
           summary: High Connection Rate
           description: "telnet-server has a high connection rate per second in the last 2 minutes"
@@ -60,7 +60,7 @@ data:
       - scheme: http
         static_configs:
         - targets:
-          - "alertmanager.monitoring.svc:9093"
+          - "alertmanager-service.monitoring.svc:9093"
 
     scrape_configs:
       - job_name: 'kubernetes-apiservers'

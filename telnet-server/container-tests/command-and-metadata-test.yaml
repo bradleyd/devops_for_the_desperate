@@ -10,5 +10,5 @@ metadataTest:
       value: 2323
     - key: METRIC_PORT
       value: 9000
-  cmd: ["./telnet-server"]
+  entrypoint: ["./telnet-server"]
   workdir: "/app"

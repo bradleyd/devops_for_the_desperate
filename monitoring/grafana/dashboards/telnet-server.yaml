@@ -71,9 +71,9 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[5m]))",
+              "expr": "sum(rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[2m]))",
               "interval": "",
-              "legendFormat": "sum(rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[5m]))",
+              "legendFormat": "sum(rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[2m]))",
               "refId": "A"
             }
           ],
