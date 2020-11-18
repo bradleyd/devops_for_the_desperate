@@ -20,6 +20,10 @@ metadata:
   labels:
     app: telnet-server
   name: telnet-server-metrics
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9000'
+ 
 spec:
   ports:
   - name: metrics

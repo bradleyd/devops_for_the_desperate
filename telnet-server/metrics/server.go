@@ -22,6 +22,11 @@ var (
 		Name: "telnet_server_unknown_commands_total",
 		Help: "The total number of unknown commands entered",
 	})
+
+	connectionsActive = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "telnet_server_active_connections",
+		Help: "The number of active connections",
+	})
 )
 
 // MetricServer holds state for our Prometheus metrics server
@@ -56,4 +61,14 @@ func (m *MetricServer) IncrementConnectionsProcessed() {
 // IncrementUnknownCommands += 1
 func (m *MetricServer) IncrementUnknownCommands(cmd string) {
 	unknownCommands.Inc()
+}
+
+//IncrementActiveConnections += 1
+func (m *MetricServer) IncrementActiveConnections() {
+	connectionsActive.Inc()
+}
+
+//DecrementActiveConnections -= 1
+func (m *MetricServer) DecrementActiveConnections() {
+	connectionsActive.Dec()
 }

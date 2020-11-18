@@ -19,6 +19,9 @@ spec:
       creationTimestamp: null
       labels:
         app: telnet-server
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port:   '9000'
     spec:
       containers:
       - image: dftd/telnet-server:v1
