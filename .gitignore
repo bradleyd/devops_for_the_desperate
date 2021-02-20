@@ -5,3 +5,5 @@ gitea-helm-chart/
 telnet-server/telnet-server
 .DS_Store
 *.bak
+vagrant/bpf-perf-workshop/
+vagrant/perf-labs/
