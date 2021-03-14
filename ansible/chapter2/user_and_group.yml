@@ -19,12 +19,12 @@
   file:
     path: /opt/engineering
     state: directory
-    mode: 0750 #u=rwx,g=rx
+    mode: 0750
     group: developers
 
 - name: Create a file in the engineering directory
   file:
     path: "/opt/engineering/private.txt"
     state: touch
-    mode: 0770 #u=rwx,g=rwx
+    mode: 0770
     group: developers

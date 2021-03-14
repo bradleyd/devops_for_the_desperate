@@ -8,7 +8,7 @@
   lineinfile:
     path: "/etc/pam.d/common-password"
     regexp: "pam_pwquality.so"
-    line: "password required pam_pwquality.so try_first_pass minlen=12 lcredit=-1 ucredit=-1 dcredit=-1 ocredit=-1 retry=3 enforce_for_root"
+    line: "password required pam_pwquality.so minlen=12 lcredit=-1 ucredit=-1 dcredit=-1 ocredit=-1 retry=3 enforce_for_root"
     state: present
 
     #- name: Limit Password Reuse
