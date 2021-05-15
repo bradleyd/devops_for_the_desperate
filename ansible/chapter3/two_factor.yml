@@ -12,13 +12,13 @@
     group: bender
     mode: '0600'
 
-- name: Tell PAM not to prompt for password over SSH
+- name: Disable password authentication for SSH
   lineinfile:
     dest: "/etc/pam.d/sshd"
     regex: "@include common-auth"
     line: "#@include common-auth"
 
-- name: Tell PAM SSHD about GoogleAuthenticator
+- name: Configure PAM to use GoogleAuthenticator for SSH logins
   lineinfile:
     dest: "/etc/pam.d/sshd"
     line: "auth required pam_google_authenticator.so nullok"
@@ -26,7 +26,7 @@
 - name: Set ChallengeResponseAuthentication to Yes
   lineinfile:
     dest: "/etc/ssh/sshd_config"
-    regexp: "^ChallengeResponseAuthentication [yes|no]"
+    regexp: "^ChallengeResponseAuthentication (yes|no)"
     line: "ChallengeResponseAuthentication yes"
     state: present
 
