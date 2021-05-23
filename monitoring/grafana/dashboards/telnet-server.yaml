@@ -71,9 +71,9 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[2m]))",
+              "expr": "rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[2m])",
               "interval": "",
-              "legendFormat": "sum(rate(telnet_server_connection_total{job=\"kubernetes-pods\"}[2m]))",
+              "legendFormat": "{{kubernetes_pod_name}}",
               "refId": "A"
             }
           ],
@@ -166,10 +166,10 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (container) (rate(container_cpu_cfs_throttled_seconds_total{container=\"telnet-server\",container!=\"POD\", image!=\"\"}[2m]))",
+              "expr": "rate(container_cpu_cfs_throttled_seconds_total{container=\"telnet-server\",container!=\"POD\", image!=\"\"}[2m])",
               "hide": false,
               "interval": "",
-              "legendFormat": "rate(container_cpu_cfs_throttled_seconds_total{container=\"telnet-server\",container!=\"POD\", image!=\"\"}[5m])",
+              "legendFormat": "{{pod}}",
               "refId": "A"
             }
           ],
@@ -275,9 +275,9 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(telnet_server_connection_errors_total{job=\"kubernetes-pods\"}[2m]))",
+              "expr": "rate(telnet_server_connection_errors_total{job=\"kubernetes-pods\"}[2m])",
               "interval": "",
-              "legendFormat": "sum(rate(telnet_server_connection_errors_total{job=\"kubernetes-pods\"}[2m]))",
+              "legendFormat": "{{kubernetes_pod_name}}",
               "refId": "A"
             }
           ],
