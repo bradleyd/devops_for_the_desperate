@@ -10,7 +10,7 @@ data:
   alertmanager.yml: |
     global: null
     receivers:
-    #- name: gmail
+    #- name: email
     #  email_configs:
     #  - send_resolved: true
     #    to: GMAIL_USERNAME@gmail.com
