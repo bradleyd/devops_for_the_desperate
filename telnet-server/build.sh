@@ -8,7 +8,7 @@ go test ./... -v # all tests
 echo "Building $IMAGE"
 docker build -t $IMAGE .
 
-if $PUSH_IMAGE; then
+if [[ -v $PUSH_IMAGE ]]; then 
     docker push $IMAGE
 fi
 
