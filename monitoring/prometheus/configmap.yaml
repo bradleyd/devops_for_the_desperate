@@ -31,7 +31,7 @@ data:
           runbook_url: https://github.com/bradleyd/devops_for_the_desperate/runbooks/high_connections.md
 
       - alert: HighCPUThrottleRate
-        expr: rate(container_cpu_cfs_throttled_seconds_total{container="telnet-server",container!="POD",image!=""}[2m]) > 0.00003
+        expr: sum by(container) (rate(container_cpu_cfs_throttled_seconds_total{container="telnet-server",container!="POD",image!=""}[2m])) > 0.00003
         for: 1m
         labels:
           severity: Critical
