@@ -18,7 +18,7 @@ data:
         annotations:
           summary: High Error Rate
           description: "telnet-server has a high error rate per second in the last 2 minutes"
-          runbook_url: https://github.com/bradleyd/devops_for_the_desperate/runbooks/error_rate.md
+          runbook_url: https://github.com/bradleyd/devops_for_the_desperate/blob/master/runbooks/error_rate.md
 
       - alert: HighConnectionRatePerSecond
         expr: sum(rate(telnet_server_connection_total{job="kubernetes-pods"}[2m])) > 2
@@ -28,7 +28,7 @@ data:
         annotations:
           summary: High Connection Rate
           description: "telnet-server has a high connection rate per second in the last 2 minutes"
-          runbook_url: https://github.com/bradleyd/devops_for_the_desperate/runbooks/high_connections.md
+          runbook_url: https://github.com/bradleyd/devops_for_the_desperate/blob/master/runbooks/high_connections.md
 
       - alert: HighCPUThrottleRate
         expr: sum by(container) (rate(container_cpu_cfs_throttled_seconds_total{container="telnet-server",container!="POD",image!=""}[2m])) > 0.00003
@@ -38,7 +38,7 @@ data:
         annotations:
           summary: High CPU Throttling
           description: "telnet-server is being CPU throttled\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
-          runbook_url: https://github.com/bradleyd/devops_for_the_desperate/runbooks/cpu_throttling.md
+          runbook_url: https://github.com/bradleyd/devops_for_the_desperate/blob/master/runbooks/cpu_throttling.md
 
 
   prometheus.yml: |-
