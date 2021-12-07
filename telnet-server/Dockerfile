@@ -1,6 +1,5 @@
 # Build stage
-FROM golang:1.13-alpine AS build-env
-RUN apk --no-cache --update add build-base git gcc
+FROM golang:alpine AS build-env
 ADD . /
 RUN cd / && go build -o telnet-server
 
