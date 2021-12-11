@@ -66,6 +66,10 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 
 	reader := bufio.NewReader(conn)
 
+	// source IP
+	srcIP := conn.RemoteAddr().(*net.TCPAddr).IP.String()
+	t.logger.Printf("[IP=%s] New session", srcIP)
+
 	// increment metrics
 	t.metrics.IncrementConnectionsProcessed()
 	t.metrics.IncrementActiveConnections()
@@ -91,7 +95,7 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 		switch cmd {
 		case "quit", "q":
 			conn.Write([]byte("Good Bye!\n"))
-			t.logger.Println("User quit session")
+			t.logger.Printf("[IP=%s] User quit session", srcIP)
 			t.metrics.DecrementActiveConnections()
 			return
 		case "date", "d":
@@ -100,6 +104,8 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 			conn.Write([]byte(s + "\n"))
 		case "yell for sysop", "y":
 			conn.Write([]byte("Yelling for the SysOp\n"))
+		case "dftd":
+			conn.Write([]byte("You have unlocked God mode!\n"))
 		case "help", "?":
 			command := "Command Help:\n1) (q)uit -- quits\n2) (d)ate -- prints the current datetime\n3) (y)ell for sysop -- gets the sysop\n4) (?) help -- prints this message"
 			conn.Write([]byte(command + "\n"))
@@ -113,6 +119,6 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 
 		}
 
-		t.logger.Printf("Request command: %s", bytes)
+		t.logger.Printf("[IP=%s] Requested command: %s", srcIP, bytes)
 	}
 }
