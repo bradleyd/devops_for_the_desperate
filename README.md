@@ -1,6 +1,6 @@
 ## DevOps For The Desperate
 
-This repo is for the book (DevOps for the Desperate)[https://nostarch.com/devops-desperate].
+This repo is for the book [DevOps for the Desperate](https://nostarch.com/devops-desperate).
 
 ### Directories
 
