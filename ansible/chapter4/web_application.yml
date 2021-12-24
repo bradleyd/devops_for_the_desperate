@@ -22,7 +22,7 @@
     src: "../ansible/chapter4/greeting.service"
     dest: "/etc/systemd/system/greeting.service"
 
-- name: Start and enable Greetings Application
+- name: Start and enable Greeting Application
   systemd:
     name: greeting.service
     daemon_reload: yes
