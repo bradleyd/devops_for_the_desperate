@@ -12,7 +12,7 @@
     src: "../ansible/chapter4/{{ item }}"
     dest: "/opt/engineering/{{ item }}"
     group: developers
-    mode: '0750'
+    mode: 0750
   loop:
     - greeting.py
     - wsgi.py
