@@ -7,3 +7,4 @@ telnet-server/telnet-server
 *.bak
 vagrant/bpf-perf-workshop/
 vagrant/perf-labs/
+telnet-server/main
