@@ -8,3 +8,4 @@ telnet-server/telnet-server
 vagrant/bpf-perf-workshop/
 vagrant/perf-labs/
 telnet-server/main
+*.tool-versions
