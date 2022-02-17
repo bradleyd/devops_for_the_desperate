@@ -1,20 +1,28 @@
 # Apple Silicon
 
-The easiest way to follow along with the book is to use Parallels Pro. This is a paid software solution, but it will work 
-with `vagrant` and `minikube`.
+The easiest way to follow along with the book is to use `Parallels Pro`. This is a paid software solution, but it will work with `vagrant` and `minikube`.
 
-> If you do not want to pay for Parallels, you can do something similar with Qemu, but `vagrant` provider would change to `docker` once you get
-> a Qemu image up and running with Docker. I will update this repo with instructions on that route at a different time.
+> If you do not want to pay for Parallels, you can do something similar with Qemu but will require more setup
 
-You'll need to install the `vagrant-parallels` plugin first.
+## Getting Started
+
+The first thing you need to do is make sure you have `vagrant`, `ansible` installed. From a terminal, enter the following:
+
+```bash
+brew install ansible vagrant
+```
+
+Then, you'll need to install the `vagrant-parallels` plugin.
 
 ```bash
 vagrant plugin install vagrant-parallels
 ```
 
-Once that is installed, you can run vagrant up like we do in the book from this directory instead like this:
+Once that is installed, make sure you are in `apple-silicon/vagrant/` directory before running the `vagrant up` command like we do in Chapter 1:
 
-```bash
+> Make sure you add `--provider=parallels` to the command
+
+```vagrant
 $ vagrant up --provider=parallels
 Bringing machine 'default' up with 'parallels' provider...
 ==> default: Registering VM image from the base box 'bento/ubuntu-20.04-arm64'...
@@ -58,6 +66,7 @@ PLAY RECAP *********************************************************************
 default                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+You are now ready to follow along on the book as you were on a Linux or Intel-based Mac.
 
 
 
