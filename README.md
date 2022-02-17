@@ -21,3 +21,5 @@ Here is a quick overview of each directory:
 * _telnet-server_: Contains the sample application that is used throughout two-thirds of the book.
 
 * _vagrant_: Contains the Vagrantfile for the VM used in the first section of the book.
+
+* _apple-silicon: Contains the Vagrantfile for the VM used in the first section of the book and minikube instructions.
