@@ -1,0 +1,18 @@
+---
+- name: dftd
+  hosts: all
+  become: true
+  become_method: sudo
+  remote_user: dftd
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+   - name: Install ufw
+     apt: update_cache=yes name=ufw state=latest
+
+   - import_tasks: tasks/users.yml
+   - import_tasks: tasks/golang.yml
+   - import_tasks: tasks/kubectl.yml
+
+
