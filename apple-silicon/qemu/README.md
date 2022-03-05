@@ -96,17 +96,18 @@ Enter `ubuntu` when prompted for the SSH password and BECOME password.
 
 > NOTE: This is still using the `ansible/` playbook in the main directory of this repository. The local `ansible/` relative to this README, is only to setup the host before Chapter 1.
 
-Once you get to Chapters 3,4, and 5, you'll need to adjust `ansible-playbook` command by appending the private-key flag. You'll create the the public keypair in Chapter 3 and will need it to connect once the Chapter 3 tasks are run as they disable passwords for SSH login.
+Once you get to Chapters 3,4, and 5, you'll need to adjust `ansible-playbook` command by appending the private-key flag. You'll create the public keypair in Chapter 3 and will need it to connect once the Chapter 3 tasks are run as they disable passwords for SSH login.
 
 ```bash
 ansible-playbook ../../ansible/site.yml -i hosts -c paramiko --ask-pass --ask-become-pass -u ubuntu --private-key ~/.ssh/dftd
 ```
 
-In Chapter 4 and Chapter 5 the book has you install the Greeting web service which listens on port 5000. On my M1 Mac, port 5000 is being used by the Airplay receiver and because of this I set the Qemu host to listen on port 5001. Any request to 5001 on the Silicon Mac will be forwarded to port 5000 inside the Qemu host.
+In Chapter 4 and Chapter 5, the book's examples have you install the Greeting web service which listens on port 5000. On my M1 Mac, port 5000 is being used by the Airplay receiver and because of this I set the Qemu host to listen on port 5001. Any request to 5001 on the Silicon Mac will be forwarded to port 5000 inside the Qemu host.
 
-In chapter 5, if the example calls for testing against port 5000, substitute 5001 instead.
+In chapter 5, if the example calls for testing against port 5000, substitute port 5001 instead.
 
-> In Chapter 5, the book instructs you to use the additional interface the Vagrant and Virtualbox creates for `nmap`. We do not have this for our Qemu host, so just run `nmap` against localhost.
+In Chapter 5, the book instructs you to use the additional interface the Vagrant and Virtualbox creates for `nmap`.
+We do not have this for our Qemu host, so just run `nmap` against 127.0.0.1.
 
 ## Chapters 6-9
 
@@ -141,18 +142,17 @@ minikube start --driver=docker
 
 __You should be able to build the `telnet-server` image as instructed in Chapter 6 now!__
 
-When you get to Chapters 7-9, you will follow the examples in the book from within this Qemu host.
-
 ### Setting Up Your Pipeline
 
-In this section, in Chapter 8, you install `skaffold`. Please make sure you choose the Linux arm64 version since you are running in arm64 architecture.
+In Chapter 8, you'll install `skaffold` for setting up our CI/CD pipeline.
+Please make sure you choose the Linux arm64 version since you are running in arm64 architecture.
 
 ```bash
 curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-arm64 && \
 sudo install skaffold /usr/local/bin/
 ```
 
-You'll also be installing `container-structure-test` application. Please choose the arm64 version as well.
+You'll also need to install the `container-structure-test` application. Please choose the arm64 version as well.
 
 ```bash
 curl -LO https://storage.googleapis.com/container-structure-test/v1.11.0/container-structure-test-linux-arm64 && \
