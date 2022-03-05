@@ -69,8 +69,8 @@ Since we have already created our infrastrucutre, we'll launch the ansible part 
 
 ```bash
 ansible-playbook ./ansible/site.yml -i hosts -c paramiko --ask-pass --ask-become-pass -u dftd
-SSH password: <vagrant>
-BECOME password[defaults to SSH password]: <vagrnat>
+SSH password: <dftd>
+BECOME password[defaults to SSH password]: <dftd>
 ...
 PLAY RECAP ********************************************************************************************************************************************************************************************************************************************************************
 127.0.0.1                  : ok=8    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

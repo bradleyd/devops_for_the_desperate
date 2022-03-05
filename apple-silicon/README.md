@@ -9,7 +9,3 @@ Instead, you'll need to use a virtualization technology like Parallels (https://
 The first two options are paid software and may provide a better user experience. The last option, Qemu, is open source and will require some extra configuration.
 
 Please see the `vagrant/` directory and `minikube/` directory for more information.
-
-## TODO
-
-* Qemu instructions
