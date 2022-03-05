@@ -1,0 +1,10 @@
+---
+- name: Skaffold needs kubectl in the PATH
+  copy:
+    src: files/kubectl
+    dest: /usr/bin/
+    owner: root
+    group: root
+    mode: '0755'
+ 
+   

@@ -1,8 +1,8 @@
 # bbs-warrior
 
-This docker image is hosted on Github's Docker registry.
+This docker image is hosted on GitHub's Docker registry.
 
-If the image fails to pull from Github, you can build it locally in your minikube setup.
+If the image fails to pull from GitHub, you can build it locally in your minikube setup.
 
 ## To Run
 
@@ -27,4 +27,4 @@ docker build -t ghcr.io/bradleyd/devops_for_the_desperate/bbs-warrior:latest .
 
 After this, when you install the monitoring stack, it should find the image. 
 
-* If you decide to change anyting in `main.go` don't forget to rebuild and redeploy using `kubectl apply -f cron_job.yaml` command.
+* If you decide to change anything in `main.go` don't forget to rebuild and redeploy using `kubectl apply -f cron_job.yaml` command.

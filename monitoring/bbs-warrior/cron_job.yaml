@@ -21,7 +21,7 @@ spec:
           containers:
           - name: bbs-warrior
             image: ghcr.io/bradleyd/devops_for_the_desperate/bbs-warrior:latest
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
             env:
             - name: MAX_CONNECTIONS
               value: "500"

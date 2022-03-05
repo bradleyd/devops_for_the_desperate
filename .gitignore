@@ -1,4 +1,5 @@
 app_metrics
+.vscode
 .vagrant/
 *.log
 gitea-helm-chart/

@@ -1,13 +1,10 @@
-## DevOps For The Desperate
+# DevOps For The Desperate
 
 ![dftd](https://nostarch.com/sites/default/files/styles/uc_product_full/public/DevOpsfortheDesperate_Front.png?itok=Ae7asbI8)
 
-
 This repo is for the book [DevOps for the Desperate](https://nostarch.com/devops-desperate).
 
-
-
-### Directories
+## Directories
 
 Each one of these directories contain different material for different parts in the book.
 Here is a quick overview of each directory:
