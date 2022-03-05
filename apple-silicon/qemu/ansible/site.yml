@@ -1,0 +1,27 @@
+---
+- name: dftd
+  hosts: all
+  become: true
+  become_method: sudo
+  remote_user: dftd
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+   - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+
+   - name: Prints two lines of messages, but only if there is an environment value set
+     ansible.builtin.debug:
+       msg:
+       - "To use Docker, you'll need to export DOCKER_HOST variable locally to connect to the VM"
+       - "Enter the following in your termninal where you are going to run your docker commands"
+       - "export DOCKER_HOST=tcp://{{hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:2375"
+
+   - name: Install ufw
+     apt: update_cache=yes name=ufw state=latest
+
+   - import_tasks: tasks/users.yml
+   - import_tasks: tasks/golang.yml
+   - import_tasks: tasks/kubectl.yml
+
+

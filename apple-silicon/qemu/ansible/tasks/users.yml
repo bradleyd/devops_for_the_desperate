@@ -1,0 +1,57 @@
+---
+- name: Create the user 'vagrant'
+  user:
+    name: vagrant
+    shell: /bin/bash
+    password: $6$/HT539J9aQjXGzwb$nsnBraIPavC2o7W8OfYpeWKQSnPKjTCnYokGnYxOBiyPvCz/SDE1W5aufAJrgXnkkfxVMfDxWgbQLih3uidTM1 # vagrant
+
+- name: Create the user 'ubuntu'
+  user:
+    name: ubuntu
+    shell: /bin/bash
+    password: $6$H2CNT3j8lQdDx42U$RuCXQ3gDVaIw69doAkqjghMPDe5MwgnF11z5Q6zdg7sVe8gXZlE8l3nnq8RtP3Na.UBm7Ph/sypdoAARUJBAZ/ # ubuntu
+
+- name: Assign 'vagrant' to the 'sudo' group
+  user:
+    name: vagrant
+    groups: sudo
+    append: yes
+
+- name: Assign 'ubuntu' to the 'sudo' group
+  user:
+    name: ubuntu 
+    groups: sudo
+    append: yes
+
+- name: Assign 'ubuntu' to the 'docker' group
+  user:
+    name: ubuntu 
+    groups: docker
+    append: yes
+
+- name: Copy over sudoers file for vagrant
+  copy:
+    src: files/vagrant.sudoers.conf
+    dest: /etc/sudoers.d/vagrant.conf
+    owner: root
+    mode: '0440'
+
+- name: Copy over sudoers file for ubuntu
+  copy:
+    src: files/ubuntu.sudoers.conf
+    dest: /etc/sudoers.d/ubuntu.conf
+    owner: root
+    mode: '0440'
+
+- name: Set authorized_key file from dftd key set
+  authorized_key:
+    user: vagrant 
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/dftd.pub') }}"
+
+- name: Set authorized_key file from dftd key set
+  authorized_key:
+    user: ubuntu
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/dftd.pub') }}"
+
