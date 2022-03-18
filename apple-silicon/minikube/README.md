@@ -1,18 +1,18 @@
 # Setting up minikube
 
-Currently, minikube only works on Silicon Mac using the docker driver.
+Currently, `minikube` only works on Silicon Mac using the [docker](https://github.com/kubernetes/minikube/issues/11219) driver.
 
-To take advantage of this, we'll use `vagrant`, `ansible`, and `parallels` to create and provisioin a VM with Docker running.
+To take advantage of this, we'll use `vagrant`, `ansible`, and `parallels` to create and provision a VM with Docker running.
 
-We'll use this VM to point minikube at.
+> __We'll use this VM to follow the examples in Chapter 6,7,8,9.__
 
 ## Getting Started
 
-The first thing you need to do is make sure you have `vagrant`, `ansible`, and `minikube` installed. Please see their respective websites for instructions.
+The first thing you need to do is make sure you have `vagrant`, `ansible`, and `parallels` installed. Please see their respective websites for instructions.
 
-While inside the `minikube/` directory, run the following:
+While inside this `minikube/` directory, enter the following command to create and provision our VM:
 
-```
+```bash
 vagrant up --provider=parallels
 Bringing machine 'default' up with 'parallels' provider...
 ==> default: Registering VM image from the base box 'bento/ubuntu-20.04-arm64'...
@@ -29,188 +29,127 @@ Bringing machine 'default' up with 'parallels' provider...
 ==> default: Booting VM...
 ==> default: Waiting for machine to boot. This may take a few minutes...
     default: SSH address: :22
-    default: SSH username: vagrant
-    default: SSH auth method: private key
-    default: Warning: Connection refused. Retrying...
-    default:
-    default: Vagrant insecure key detected. Vagrant will automatically replace
-    default: this with a newly generated keypair for better security.
-    default:
-    default: Inserting generated public key within guest...
-    default: Removing insecure key from the guest if it's present...
-    default: Key inserted! Disconnecting and reconnecting using new SSH key...
-==> default: Machine booted and ready!
-==> default: Checking for Parallels Tools installed on the VM...
-==> default: Setting hostname...
-==> default: Configuring and enabling network interfaces...
-==> default: Mounting shared folders...
-    default: /vagrant => /Users/bradleydsmith/Projects/devops_for_the_desperate/apple-silicon/kubernetes
-==> default: Running provisioner: ansible...
-    default: Running ansible-playbook...
-
-PLAY [dftd] ********************************************************************
-
-TASK [Gathering Facts] *********************************************************
-ok: [default]
-
-TASK [Install aptitude using apt] **********************************************
-changed: [default]
-
-TASK [Install required system packages] ****************************************
-changed: [default] => (item=apt-transport-https)
-ok: [default] => (item=ca-certificates)
-ok: [default] => (item=curl)
-ok: [default] => (item=software-properties-common)
-changed: [default] => (item=python3-pip)
-changed: [default] => (item=virtualenv)
-ok: [default] => (item=python3-setuptools)
-
-TASK [Add Docker GPG apt Key] **************************************************
-changed: [default]
-
-TASK [Add Docker Repository] ***************************************************
-changed: [default]
-
-TASK [Update apt and install docker-ce] ****************************************
-changed: [default]
-
-TASK [Create a directory named 'engineering'] **********************************
-changed: [default]
-
-TASK [Copy over docker.service override] ***************************************
-changed: [default]
-
-TASK [Restart docker.service and make sure systemd reloads] ********************
-changed: [default]
-
-TASK [debug] *******************************************************************
-ok: [default] => {
-    "hostvars[inventory_hostname]['ansible_default_ipv4']['address']": "10.211.55.6"
-}
-
-TASK [Prints two lines of messages, but only if there is an environment value set] ***
-ok: [default] => {
-    "msg": [
-        "To use Docker, you'll need to export DOCKER_HOST variable locally to connect to the VM",
-        "Enter the following in your termninal where you are going to run your docker commands",
-        "export DOCKER_HOST=tcp://10.211.55.6:2375"
-    ]
-}
+...
 
 PLAY RECAP *********************************************************************
 default                    : ok=11   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-If everything went well, you should see output similar to above. Make sure you export the `DOCKER_HOST` before moving on to the next step.
+If everything went well, you should see output similar to above. I leveraged Ansible to provision this VM with the following to make it easier for you:
 
-## Minikube
+* docker
+* Golang
 
-Next, you need to start `minikube`.
+Feel free to check out the playbook in `ansible/site.yml` for more details.
 
-Enter the following in the same terminal:
+### Installing minikube
+
+Do not install minikube on your Silicon Mac, instead you'll install it in the VM you just created via vagrant.
+
+> You can install minikube on your Silicon Mac, but you will end up having to proxy all Kubernetes service requests and that can get cumbersome and confusing. Feel free to install it on your local host if you are comfortable with the differences.
+
+To install minikube, you need to ssh into the vm. From a terminal, enter the following:
+
+`vagrant ssh`
+
+Now that you are in the VM, enter the following commands to install the ARM version of minikube.
+
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-arm64
+sudo install minikube-linux-arm64 /usr/local/bin/minikube
+```
+
+Next, you should be able to follow the book as written and start minikube. The only difference is you need to choose the docker driver instead of virtaulbox like below:
 
 ```bash
 minikube start --driver=docker
-😄  minikube v1.25.1 on Darwin 12.2.1 (arm64)
+😄  minikube v1.25.2 on Ubuntu 20.04 (arm64)
 ✨  Using the docker driver based on user configuration
 👍  Starting control plane node minikube in cluster minikube
 🚜  Pulling base image ...
-💾  Downloading Kubernetes v1.23.1 preload ...
-    > preloaded-images-k8s-v16-v1...: 417.88 MiB / 417.88 MiB  100.00% 22.02 Mi
-    > gcr.io/k8s-minikube/kicbase: 343.02 MiB / 343.02 MiB  100.00% 12.86 MiB p
-🔥  Creating docker container (CPUs=2, Memory=3876MB) ...
-❗  Listening to 0.0.0.0 on external docker host 10.211.55.6. Please be advised
-🐳  Preparing Kubernetes v1.23.1 on Docker 20.10.12 ...
-    ▪ kubelet.housekeeping-interval=5m
-    ▪ Generating certificates and keys ...
-    ▪ Booting up control plane ...
-    ▪ Configuring RBAC rules ...
-🔎  Verifying Kubernetes components...
-    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
-🌟  Enabled addons: storage-provisioner, default-storageclass
-🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+...
 ```
 
-To test it out, enter the following `kubectl` command:
-
-```bash
-$ minikube kubectl -- get pods -A
-NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
-kube-system   coredns-64897985d-mv9rj            1/1     Running   0          5s
-kube-system   etcd-minikube                      1/1     Running   0          18s
-kube-system   kube-apiserver-minikube            1/1     Running   0          18s
-kube-system   kube-controller-manager-minikube   1/1     Running   0          19s
-kube-system   kube-proxy-t2br6                   1/1     Running   0          6s
-kube-system   kube-scheduler-minikube            1/1     Running   0          18s
-kube-system   storage-provisioner                1/1     Running   0          17s
-```
+With minikube installed, you should be able to perform the examples as written! However, there are some caveats where the book differs from the actual implementation on your Silicon Mac. You should read the [troubleshooting](#troubleshooting) section below before following Chapters 6-9.
 
 ## Troubleshooting
 
+> If something does not work, please open an issue here in this repository and I will do my best to respond and find a fix!
 
-### Docker build Chapter 6
+Chapters 6 and 7 should work as written, just make sure you are performing the steps inside this VM.
 
-In Chapter 6, we build the telnet-server docker image. We use `minikube docker-env` command to find the docker host. To test that it's working, you do a docker run command on it and use `telnet` against the minikube IP address. The minikube IP is not exposed in this setup, so you'll have to `vagrant ssh` from within the `minikube/` directory and then run the telnet command.
+### Chapter 8
 
-For example, from on the M1 Mac:
+In Chapter 8, you'll install build out a simple CI/CD pipeline. Please make sure you choose the Linux arm64 versions for all the software required since you are running them in an arm64 host. Here is a quick reference to the versions you want to install for both `skaffold` and `container-structure-test`.
 
-```
-minikube ip
-192.168.49.2
-```
+#### skaffold
 
-Then, `vagrant ssh` into the minikube VM.
-
-```
-vagrant ssh
-vagrant@dftd:~$
+```bash
+curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-arm64 && \
+sudo install skaffold /usr/local/bin/
 ```
 
-Now, from within the minikube VM, you can test the running docker container:
+#### container-structure-test
 
-```
-telnet 192.168.49.2 2323
-Trying 192.168.49.2...
-Connected to 192.168.49.2.
-Escape character is '^]'.
-
-____________ ___________
-|  _  \  ___|_   _|  _  \
-| | | | |_    | | | | | |
-| | | |  _|   | | | | | |
-| |/ /| |     | | | |/ /
-|___/ \_|     \_/ |___/
-
->q
-Good Bye!
-Connection closed by foreign host.
+```bash
+curl -LO https://storage.googleapis.com/container-structure-test/v1.11.0/container-structure-test-linux-arm64 && \
+mv container-structure-test-linux-arm64 container-structure-test && chmod +x container-structure-test && sudo mv container-structure-test /usr/local/bin/
 ```
 
-### Kuberenetes/Skaffold Chapter 8
+### Chapter 9
 
-In Chapter 8, we use `skaffold` to test a CI/CD pipeline. We also need to test telnet-server is running and exposed. Because of this setup, `minikube tunnel` did not work correctly for me. The easiest work around is ignore the tunnel command and using the IP address of minikube, but instead use `port-forward` in `kubectl`. 
+In this Chapter, you'll set up the monitoring stack. Before you follow those instructions to install it, you need to build the connection simulator `bbs-warrior` docker image in the VM. The one provided in the manifest was built for non-arm CPU's and hosted on GitHub.
 
-To test telnet-server running in k8s, enter the following on your M1 mac:
+#### bbs-warrior
 
+Navigate to the `monitoring/bbs-warrior/` directory and follow the README instructions on how to build the docker image. Don't forget to make sure you have run `eval $(minikube -p minikube docker-env)` command in the same terminal as you are working in from inside the VM. Here is a quick command reference:
+
+```bash
+docker build -t ghcr.io/bradleyd/devops_for_the_desperate/bbs-warrior:latest .
 ```
-minikube kubectl -- port-forward svc/telnet-server --address=0.0.0.0 2323:2323
-```
-Then in another terminal on your M1 Mac, enter the following to telnet into telnet-server:
 
-```
-telnet 127.0.0.1 2323
-Trying 192.168.49.2...
-Connected to 192.168.49.2.
-Escape character is '^]'.
+Once that is successfully built, you can follow along with Chapter 9 to install the stack as written.
 
-____________ ___________
-|  _  \  ___|_   _|  _  \
-| | | | |_    | | | | | |
-| | | |  _|   | | | | | |
-| |/ /| |     | | | |/ /
-|___/ \_|     \_/ |___/
+#### Services in the Browser
 
->q
-Good Bye!
-Connection closed by foreign host.
+The next hurdle you will encounter is you will be asked to view Grafana and Prometheus dashboards in your browser via the `minikube service` command. Since we are doing this in a VM without a desktop, you'll have to port forward these services via SSH on your local host outside the VM.
+
+To do this you'll need to find out the IP address that Vagrant uses to SSH into. You'll use this in the SSH port forward command later on. Enter the following command to get the IP address:
+
+```bash
+vagrant ssh-config | grep HostName
+HostName 10.211.55.12
 ```
+
+The IP address assigned to HostName is the one we want. Remember this address as we'll need it next.
+
+Next, we need to locate the NodePort port that minikube assigned to Prometheus, Grafana, and Alertmanager. These ports will allow us to forward traffic from our local host's browser into the VM for those services.
+
+Use the following command inside the VM to view the dynamic ports for each service.
+
+```bash
+minikube -n monitoring service --all
+|----------------------|---------------------------|
+|         NAME         |            URL            |
+|----------------------|---------------------------|
+| alertmanager-service | http://192.168.49.2:30717 |
+| grafana-service      | http://192.168.49.2:31797 |
+| prometheus-service   | http://192.168.49.2:31234 |
+|----------------------|---------------------------|
+```
+
+I have shortened the output for readability. But the data you want to pay attention to is the URL column. In particular the IP address and port.
+
+For each of these 3 ports you'll need to run the following command in a terminal on your local host. For example, to see the Grafana dashboard on my local host's browser enter the following:
+
+```bash
+ssh -L 31797:192.168.49.2:31797 vagrant@10.211.55.12
+```
+
+It will prompt you for vagrant's password which is just `vagrant`.
+
+This command states, forward any traffic on your local machine (127.0.0.1) destined for port 31797, to IP address 192.168.49.2 (minikube IP inside the MV) over the SSH connection--vagrant@10.211.55.12.
+
+Once you are logged in, leave the SSH terminal open and visit `http://127.0.0.1:31797` in your browser. You should now see the Grafana dashboard!
+
+Repeat the above SSH forwarding step for each of the other two services in a different terminal on your local host. Please note, leave these services open in your browser and the SSH terminal for the entirety of Chapter 9 as you'll be referencing them more than once.

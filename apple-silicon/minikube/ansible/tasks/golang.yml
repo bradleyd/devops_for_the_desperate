@@ -1,0 +1,35 @@
+---
+- name: download golang tar
+  get_url:
+    url: "https://storage.googleapis.com/golang/go{{new_go_version}}.linux-arm64.tar.gz"
+    dest: "{{home_dir}}"
+    mode: 0440
+
+- name: Extract the Go tarball
+  unarchive:
+    src: "{{home_dir}}/go{{new_go_version}}.linux-arm64.tar.gz"
+    dest: /usr/local
+    copy: no
+  become: yes
+
+- name: create go directories in home
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: "{{file_owner}}"
+    group: "{{file_owner}}"
+    mode: 0775
+  with_items:
+  - "{{home_dir}}/go"
+  - "{{home_dir}}/go/bin"
+
+- name: modify .bashrc
+  blockinfile:
+    dest: "{{home_dir}}/.bashrc"
+    block: |
+      export GOPATH=$HOME/go
+      export GOBIN=$GOPATH/bin
+      export PATH=$GOBIN:$PATH:/usr/local/go/bin
+    marker: '# {mark} ANSIBLE MANAGED BLOCK - changes for golang'
+    insertafter: EOF
+    create: yes

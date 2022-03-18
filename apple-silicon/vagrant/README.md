@@ -2,7 +2,7 @@
 
 The easiest way to follow along with the book is to use `Parallels Pro`. This is a paid software solution, but it will work with `vagrant` and `minikube`.
 
-> If you do not want to pay for Parallels, you can do something similar with Qemu but will require more setup
+> If you do not want to pay for Parallels, you can do something similar with QEMU but will require more setup
 
 ## Getting Started
 
@@ -67,6 +67,3 @@ default                    : ok=1    changed=0    unreachable=0    failed=0    s
 ```
 
 You are now ready to follow along on the book as you were on a Linux or Intel-based Mac.
-
-
-
