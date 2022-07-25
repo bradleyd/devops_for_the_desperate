@@ -3,7 +3,7 @@
   apt:
     name:
       - python3-flask
-      - gunicorn
+      - gunicorn3
       - nginx
     update_cache: yes
 
