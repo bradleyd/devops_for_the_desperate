@@ -14,7 +14,7 @@ go build main.go
 
 ## Deploying
 
-This application run in a Kubernetes cluster and can be deployed
+This application runs in a Kubernetes cluster and can be deployed
 using the normal CI/CD pipeline.
 
 ## Common Tasks
@@ -23,7 +23,7 @@ None...yet
 
 ## On Call
 
-This section describes how to manage any on call alerts that come up.
+This section describes how to manage any on-call alerts that come up.
 
 ## Alerts
 
@@ -34,7 +34,7 @@ If you are reaching this page via your email alert, __Congratulations!__
 This alert occurs when the Pod is using too much CPU time and K8s starts
 throttling the container in the Pod.
 
-One of the reasons this can occur is because of many connections.
+One of the reasons this can occur is because of too many connections.
 Please check the connections rate to correlate. If connections are low, please
 check the host and Pod metrics. Also, check the logs for any issues as well.
 
@@ -52,8 +52,8 @@ errors.
 If you are reaching this page via your email alert, __Congratulations!__
 
 This alert occurs when there are many connections to the service.
-Please make sure there is enough Pods in the Deployment to accommodate the spike.
-Auto-scaling should be enabled, so there is a chance that is broke too.
+Please make sure there are enough Pods in the Deployment to accommodate the spike.
+Auto-scaling should be enabled, so there is a chance that is broken too.
 
 ## Disaster Recovery
 
