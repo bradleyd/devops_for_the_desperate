@@ -23,6 +23,12 @@
     dest: "/etc/pam.d/sshd"
     line: "auth required pam_google_authenticator.so nullok"
 
+- name: Enable keyboard-interactive authentication
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^KbdInteractiveAuthentication (yes|no)"
+    line: "KbdInteractiveAuthentication yes"
+
 - name: Set ChallengeResponseAuthentication to Yes
   lineinfile:
     dest: "/etc/ssh/sshd_config"
