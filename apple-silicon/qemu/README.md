@@ -29,7 +29,7 @@ vmlinuz-5.10.0-11-arm64
 We'll use these three files to run a Debian host in QEMU.
 
 > Please note, this prebuilt image has the Docker daemon already installed.
-> Please use this host to follow a long with Chapter 6-9 in the book.
+> Please use this host to follow along with Chapter 6-9 in the book.
 
 Before you launch the image, here are some important details you'll need to log in and connect.
 
