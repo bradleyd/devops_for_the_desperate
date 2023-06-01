@@ -80,7 +80,7 @@ Now that is done, you are ready to follow along!
 
 ## Chapter 1-5
 
-In Chapters 1-5, every time you see `vagrant provision`, you are going to run `ansilbe-playbook` command instead.
+In Chapters 1-5, every time you see `vagrant provision`, you are going to run `ansible-playbook` command instead.
 
 In Chapter 1 and Chapter 2, you can run the following command in lieu of `vagrant provision`
 
