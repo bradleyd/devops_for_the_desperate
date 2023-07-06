@@ -29,7 +29,7 @@ vmlinuz-5.10.0-11-arm64
 We'll use these three files to run a Debian host in QEMU.
 
 > Please note, this prebuilt image has the Docker daemon already installed.
-> Please use this host to follow a long with Chapter 6-9 in the book.
+> Please use this host to follow along with Chapter 6-9 in the book.
 
 Before you launch the image, here are some important details you'll need to log in and connect.
 
@@ -80,7 +80,7 @@ Now that is done, you are ready to follow along!
 
 ## Chapter 1-5
 
-In Chapters 1-5, every time you see `vagrant provision`, you are going to run `ansilbe-playbook` command instead.
+In Chapters 1-5, every time you see `vagrant provision`, you are going to run `ansible-playbook` command instead.
 
 In Chapter 1 and Chapter 2, you can run the following command in lieu of `vagrant provision`
 
