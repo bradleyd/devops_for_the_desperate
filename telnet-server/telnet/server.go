@@ -50,7 +50,7 @@ func (t *TCPServer) Run() {
 			t.metrics.IncrementConnectionErrors()
 			continue
 		}
-		conn.Write([]byte(banner() + "\n"))
+		conn.Write([]byte(banner() + "\r\n"))
 		go t.handleConnections(conn)
 	}
 }
@@ -94,28 +94,28 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 		cmd := strings.TrimRight(string(bytes), "\r\n")
 		switch cmd {
 		case "quit", "q":
-			conn.Write([]byte("Good Bye!\n"))
+			conn.Write([]byte("Good Bye!\r\n"))
 			t.logger.Printf("[IP=%s] User quit session", srcIP)
 			t.metrics.DecrementActiveConnections()
 			return
 		case "date", "d":
 			const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 			s := "\x1b[44;37;1m" + time.Now().Format(layout) + "\033[0m"
-			conn.Write([]byte(s + "\n"))
+			conn.Write([]byte(s + "\r\n"))
 		case "yell for sysop", "y":
-			conn.Write([]byte("Yelling for the SysOp\n"))
+			conn.Write([]byte("Yelling for the SysOp\r\n"))
 		case "dftd":
-			conn.Write([]byte("You have unlocked God mode!\n"))
+			conn.Write([]byte("You have unlocked God mode!\r\n"))
 		case "help", "?":
-			command := "Command Help:\n1) (q)uit -- quits\n2) (d)ate -- prints the current datetime\n3) (y)ell for sysop -- gets the sysop\n4) (?) help -- prints this message"
-			conn.Write([]byte(command + "\n"))
+			command := "Command Help:\r\n1) (q)uit -- quits\r\n2) (d)ate -- prints the current datetime\r\n3) (y)ell for sysop -- gets the sysop\r\n4) (?) help -- prints this message"
+			conn.Write([]byte(command + "\r\n"))
 		default:
 			// just echo command back since we do not handle it
 			newmessage := strings.ToUpper(cmd)
 			// increment metrics
 			t.metrics.IncrementUnknownCommands(cmd)
 
-			conn.Write([]byte(newmessage + "\n"))
+			conn.Write([]byte(newmessage + "\r\n"))
 
 		}
 

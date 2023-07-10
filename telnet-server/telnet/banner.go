@@ -14,14 +14,6 @@ const (
 )
 
 func banner() string {
-	b :=
-		`
-____________ ___________
-|  _  \  ___|_   _|  _  \
-| | | | |_    | | | | | |
-| | | |  _|   | | | | | |
-| |/ /| |     | | | |/ /
-|___/ \_|     \_/ |___/
-`
-	return fmt.Sprintf("%s%s%s", colorGreen, b, colorReset)
+	b := "____________ ___________\r\n|  _  \\  ___|_   _|  _  \\\r\n| | | | |_    | | | | | |\r\n| | | |  _|   | | | | | |\r\n| |/ /| |     | | | |/ /\r\n|___/ \\_|     \\_/ |___/\r\n"
+	return fmt.Sprintf("%s%s%s", colorYellow, b, colorReset)
 }

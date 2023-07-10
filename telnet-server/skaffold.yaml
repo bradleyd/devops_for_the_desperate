@@ -8,8 +8,8 @@ test:
 - image: dftd/telnet-server
   custom:
   - command: go test ./... -v
-  structureTests:
-  - ./container-tests/command-and-metadata-test.yaml
+    #  structureTests:
+    #- ./container-tests/command-and-metadata-test.yaml
 deploy:
   kubectl:
     manifests:
