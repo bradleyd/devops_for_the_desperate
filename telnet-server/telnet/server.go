@@ -3,6 +3,7 @@ package telnet
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net"
@@ -42,11 +43,13 @@ func (t *TCPServer) Run() {
 		conn, err := t.server.Accept()
 		if err != nil {
 			err = errors.New("could not accept connection")
+			t.logger.Println(err)
 			t.metrics.IncrementConnectionErrors()
 			continue
 		}
 		if conn == nil {
 			err = errors.New("could not create connection")
+			t.logger.Println(err)
 			t.metrics.IncrementConnectionErrors()
 			continue
 		}
@@ -103,15 +106,56 @@ func (t *TCPServer) handleConnections(conn net.Conn) {
 			s := "\x1b[44;37;1m" + time.Now().Format(layout) + "\033[0m"
 			conn.Write([]byte(s + "\n"))
 		case "yell for sysop", "y":
-			conn.Write([]byte("Yelling for the SysOp\n"))
+			conn.Write([]byte("SysOp will be with you shortly\n"))
 		case "dftd":
 			conn.Write([]byte("You have unlocked God mode!\n"))
+		case "l", "list":
+			header :=
+				`
+███████ ██ ██      ███████ ███████ 
+██      ██ ██      ██      ██      
+█████   ██ ██      █████   ███████ 
+██      ██ ██      ██           ██ 
+██      ██ ███████ ███████ ███████ 
+                                   `
+
+			fileList :=
+				`
+        Filename    Size     Date     Description of the file
+------------------------------------------------------------------------------
+    Ghoulbutsers    170K     1984     Based on the blockbuster movie.`
+
+			conn.Write([]byte("\n" + header + "\n"))
+			conn.Write([]byte(fileList + "\n"))
+		case "w", "weather":
+			header := 
+			`
+            ^^                   @@@@@@@@@
+       ^^       ^^            @@@@@@@@@@@@@@@
+                            @@@@@@@@@@@@@@@@@@              ^^
+                           @@@@@@@@@@@@@@@@@@@@
+ ~~~~ ~~ ~~~~~ ~~~~~~~~ ~~ &&&&&&&&&&&&&&&&&&&& ~~~~~~~ ~~~~~~~~~~~ ~~~
+ ~         ~~   ~  ~       ~~~~~~~~~~~~~~~~~~~~ ~       ~~     ~~ ~
+   ~      ~~      ~~ ~~ ~~  ~~~~~~~~~~~~~ ~~~~  ~     ~~~    ~ ~~~  ~ ~~
+   ~  ~~     ~         ~      ~~~~~~  ~~ ~~~       ~~ ~ ~~  ~~ ~
+ ~  ~       ~ ~      ~           ~~ ~~~~~~  ~      ~~  ~             ~~
+       ~             ~        ~      ~      ~~   ~             ~
+
+-------------------------------------------------------------------------
+
+			`
+			conn.Write([]byte("Enter City "))
+			reply := make([]byte, 1024)
+			_, _ = conn.Read(reply)
+			msg := fmt.Sprintf("The weather is sunny in %s", reply)
+			conn.Write([]byte(msg + "\n"))
+			conn.Write([]byte("\n" + header + "\n"))
 		case "help", "?":
 			command := "Command Help:\n1) (q)uit -- quits\n2) (d)ate -- prints the current datetime\n3) (y)ell for sysop -- gets the sysop\n4) (?) help -- prints this message"
 			conn.Write([]byte(command + "\n"))
 		default:
 			// just echo command back since we do not handle it
-			newmessage := strings.ToUpper(cmd)
+			newmessage := "unknown command"  + ": " + cmd //strings.ToUpper(cmd)
 			// increment metrics
 			t.metrics.IncrementUnknownCommands(cmd)
 

@@ -66,4 +66,30 @@ PLAY RECAP *********************************************************************
 default                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+__Please note, Vagrant and Parallels use the default SSH port (22) and the IP address of the VM instead of `localhost` and port 2222.__
+
+To get the IP of the VM you can enter the following in a terminal:
+
+```
+vagrant ssh-config
+Host default
+  HostName 10.211.55.20
+  User vagrant
+  Port 22
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /Users/bradleydsmith/Projects/devops_for_the_desperate/apple-silicon/vagrant/.vagrant/machines/default/parallels/private_key
+  IdentitiesOnly yes
+  LogLevel FATAL
+```
+
+Grab `HostName` IP, 10.211.55.20 in my case, and use that in any of the books text where it ask you to ssh in.
+You can also use this IP when the book references accessing the public IP of the VM too.
+
+```
+ssh -i ~/.ssh/dftd bender@<VM IP> 
+
+```
+
 You are now ready to follow along on the book as you were on a Linux or Intel-based Mac.
