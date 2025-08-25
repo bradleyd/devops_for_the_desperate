@@ -48,7 +48,7 @@ Before you launch the image, here are some important details you'll need to log 
 To start the QEMU host, enter the following command in a terminal where you extracted the files from above:
 
 ```bash
-qemu-system-aarch64 -cpu cortex-a72 -smp cpus=4,sockets=1,cores=4,threads=1 -machine virt,highmem=off -accel hvf -accel tcg,tb-size=2048 -m 4G -initrd initrd.img-5.10.0-11-arm64 -kernel vmlinuz-5.10.0-11-arm64 -append "root=/dev/vda2 console=ttyAMA0" -drive if=virtio,file=debian-dftd-aarch64.qcow2,format=qcow2,id=hd -net user,hostfwd=tcp::10022-:22,hostfwd=tcp::20375-:2375,hostfwd=tcp::5001-:5000 -net nic -device intel-hda -device hda-duplex -nographic
+qemu-system-aarch64 -cpu cortex-a72 -smp cpus=4,sockets=1,cores=4,threads=1 -machine virt,highmem=on -accel hvf -accel tcg,tb-size=2048 -m 4G -initrd initrd.img-5.10.0-11-arm64 -kernel vmlinuz-5.10.0-11-arm64 -append "root=/dev/vda2 console=ttyAMA0" -drive if=virtio,file=debian-dftd-aarch64.qcow2,format=qcow2,id=hd -net user,hostfwd=tcp::10022-:22,hostfwd=tcp::20375-:2375,hostfwd=tcp::5001-:5000 -net nic -device intel-hda -device hda-duplex -nographic
 ```
 
 > Note, the `cpus` are set to 4 and the `memory` is set to 4G. Please adjust to your taste.
